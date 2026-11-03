@@ -436,6 +436,12 @@ html,
   margin: 0;
 }
 
+.actor-site .method-step a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .architecture-figure {
   width: 100%;
   margin-top: 38px;
