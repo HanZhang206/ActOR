@@ -1,0 +1,26 @@
+---
+interface Item {
+  href: string;
+  number: string;
+  label: string;
+}
+
+interface Props {
+  items: Item[];
+}
+
+const { items } = Astro.props;
+---
+
+<aside class="page-nav">
+  <nav aria-label="On this page">
+    {
+      items.map((item) => (
+        <a href={item.href}>
+          <span>{item.number}</span>
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+</aside>

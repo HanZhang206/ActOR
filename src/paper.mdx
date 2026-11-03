@@ -1,0 +1,198 @@
+---
+title: ActOR
+ogTitle: "ActOR: Ambient AI-Based Agentic Orchestration for Humanoid Autonomy in Operating Rooms"
+theme: dark
+favicon: favicon.png
+description: ActOR combines ambient and robot perception in a shared digital twin for closed-loop humanoid task planning in operating rooms.
+thumbnail: robot-teaser.webp
+---
+
+import Intro from "./components/Intro.astro";
+import Contents from "./components/Contents.astro";
+import Chapter from "./components/Chapter.astro";
+import VideoFrame from "./components/VideoFrame.astro";
+import PaperFigure from "./components/PaperFigure.astro";
+import Demo from "./components/Demo.astro";
+
+import overview from "./assets/overview.png";
+import architecture from "./assets/architecture.png";
+import simulationAblations from "./assets/simulation-ablations.png";
+
+<Intro
+  kicker="ActOR:"
+  title="Ambient AI-Based Agentic Orchestration"
+  titleSecondLine="for Humanoid Autonomy in Operating Rooms"
+  authors={[
+    { name: "Han Zhang", url: "https://hanzhang206.github.io/", notes: "1,*,†" },
+    { name: "Sicheng Lu", url: "https://siiichenggg.github.io/", notes: "1,†" },
+    { name: "Aleks Santari", url: "https://www.linkedin.com/in/aleksantari/", notes: "1" },
+    { name: "Jeffrey K. Jopling", url: "https://profiles.hopkinsmedicine.org/provider/jeff-k-jopling/2709700", notes: "2" },
+    { name: "Masaru Ishii", url: "https://profiles.hopkinsmedicine.org/provider/masaru-ishii/2708814", notes: "2" },
+    { name: "Mathias Unberath", url: "https://mathiasunberath.github.io/", notes: "1" },
+  ]}
+  affiliations={[
+    { symbol: "1", name: "Johns Hopkins University" },
+    { symbol: "2", name: "Johns Hopkins Medical Institutions" },
+  ]}
+  notes={[
+    { symbol: "†", text: "Equal contribution" },
+    { symbol: "*", text: "Corresponding author" },
+  ]}
+  links={[{ name: "Paper", href: "actor-paper.pdf", icon: "ri:file-pdf-2-line" }]}
+  codeStatus="Code (coming soon)"
+/>
+
+<p class="summary-callout wide"><strong>TL;DR:</strong> ActOR combines ambient and onboard perception with agentic planning to help humanoids perform tasks in operating rooms.</p>
+
+<figure class="hero wide">
+  <VideoFrame
+    teaser
+    src="videos/teaser-v2.mp4"
+    poster="posters/robot-teaser.webp"
+    width={1920}
+    height={1080}
+    label="ActOR project teaser at normal playback speed"
+  />
+</figure>
+
+<div class="article-layout">
+  <Contents
+    items={[
+      { href: "#method", number: "01", label: "Abstract & method" },
+      { href: "#real-world", number: "02", label: "Real-world demos" },
+      { href: "#simulation", number: "03", label: "Simulation results" },
+      { href: "#citation", number: "04", label: "Citation" },
+    ]}
+  />
+  <article class="article">
+    <Chapter id="method" number="01" title="Operating rooms are short on staff, not on repetitive work.">
+      <div class="abstract">
+        <p>Operating rooms increasingly contain ambient sensing infrastructure to optimize workflows and utilization. ActOR uses it to guide a humanoid: a wall-mounted camera and the robot’s head-mounted camera form a shared object-level digital twin, and a language-model agent plans over that twin with pre-programmed locomotion and manipulation skills, without task-specific training. Scene updates and skill outcomes then trigger retries, another approach, or a new plan.</p>
+      </div>
+      <PaperFigure
+        src={overview}
+        href="figures/overview.png"
+        class="overview-figure"
+        alt="ActOR overview. A humanoid carries bottles to a biohazard bin; robot and ambient views form a shared scene representation; an LLM plans, executes, verifies, and receives feedback from robot skills."
+      />
+      <div class="method-components reading">
+        <div class="method-step">
+          <span class="step-number">1</span>
+          <div>
+            <h3>See the room together</h3>
+            <p>Ambient sensing supplies room-scale context; the head camera supplies near-field geometry. Object labels, 3D positions, extents, and in-hand states are fused in one world frame. Spatial relations ground the planner, while an occupancy map supports obstacle-aware navigation.</p>
+          </div>
+        </div>
+        <div class="method-step">
+          <span class="step-number">2</span>
+          <div>
+            <h3>Plan with reusable skills</h3>
+            <p>Given an instruction and the digital twin, the agent composes Observe, Explore, Navigate, Pick, and Place. Upper-body manipulation and lower-body locomotion are decoupled, with AMO providing whole-body control.</p>
+          </div>
+        </div>
+        <div class="method-step">
+          <span class="step-number">3</span>
+          <div>
+            <h3>Use feedback to adapt</h3>
+            <p>Skill outcomes and scene updates return to the planner. A missed grasp, an incomplete approach, or a moved object can trigger another attempt, a different approach, or a revised plan.</p>
+          </div>
+        </div>
+      </div>
+      <PaperFigure
+        src={architecture}
+        href="figures/architecture.png"
+        class="architecture-figure"
+        plain
+        alt="ActOR architecture. A shared scene representation feeds scene state to a closed-loop agent, which sends skill commands to navigation and manipulation and receives feedback."
+      />
+    </Chapter>
+
+    <Chapter id="real-world" number="02" title="Real-world demonstrations.">
+      <Demo id="multi-object-disposal" title="Multi-Object Disposal">
+        <VideoFrame
+          src="videos/multi-object-disposal-3x.mp4"
+          poster="posters/robot-picking.webp"
+          width={1920}
+          height={1086}
+          label="ActOR multi-object disposal, real robot demonstration at three times normal speed"
+          speed="3×"
+        />
+      </Demo>
+      <Demo id="failure-recovery" title="Failure Recovery">
+        <VideoFrame
+          src="videos/failure-recovery-3x.mp4"
+          poster="posters/robot-room.webp"
+          width={1920}
+          height={1086}
+          label="ActOR failure recovery, real robot demonstration at three times normal speed"
+          speed="3×"
+        />
+      </Demo>
+      <Demo id="scene-adaptation" title="Adaptation to Scene Changes">
+        <VideoFrame
+          src="videos/scene-adaptation-3x.mp4"
+          poster="posters/room-overview.webp"
+          width={1920}
+          height={1088}
+          label="ActOR adaptation to scene changes, real robot demonstration at three times normal speed"
+          speed="3×"
+        />
+      </Demo>
+    </Chapter>
+
+    <Chapter id="simulation" number="03" title="What makes the system work?">
+      <p slot="lead">Controlled MuJoCo studies isolate ambient perception and closed-loop feedback across retrieval, multi-object collection, and room reset. Each method and condition is evaluated over 60 trials across two ORs reconstructed from real rooms, using the same perception and skill stack as the physical system.</p>
+      <div class="simulation-grid">
+        <section class="sim-example" aria-labelledby="pulm-title">
+          <h3 id="pulm-title">Pulmonology operating room</h3>
+          <VideoFrame
+            src="videos/simulation-pulm.mp4"
+            poster="posters/simulation-pulm-poster.webp"
+            label="ActOR multi-object disposal in the Pulmonology operating room reconstruction"
+          />
+        </section>
+        <section class="sim-example" aria-labelledby="halo-title">
+          <h3 id="halo-title">JHOC operating room</h3>
+          <VideoFrame
+            src="videos/simulation-halo.mp4"
+            poster="posters/simulation-halo-poster.webp"
+            label="ActOR multi-object disposal in the Halo operating room reconstruction"
+          />
+        </section>
+      </div>
+      <PaperFigure
+        src={simulationAblations}
+        href="figures/simulation-ablations.png"
+        class="results-figure"
+        alt="Three simulation plots compare robot-only with ActOR for task success and Explore calls, and open-loop with ActOR for success under nominal and perturbed execution."
+      />
+      <div class="result-explanations reading">
+        <section>
+          <h3>Ambient perception reduces exploration</h3>
+          <p>With targets initially outside the robot’s view, mean Explore calls fell from <strong>1.05 to 0.12</strong>, while success increased from <strong>66.7% to 80.0%</strong>. Perception-related failures fell from 13 to 1. Per-task confidence intervals overlap; the clearest effect is the reduction in exploration.</p>
+        </section>
+        <section>
+          <h3>Feedback enables recovery and replanning</h3>
+          <p>Compared with stopping at the first skill failure, ActOR increased success from <strong>46.7% to 83.3%</strong> under nominal execution, and from <strong>8.3% to 51.7%</strong> with injected navigation errors, object relocations, or grasp misalignments. This comparison measures the combined contribution of retry and replanning.</p>
+        </section>
+      </div>
+    </Chapter>
+
+    <Chapter id="citation" number="04" title="Citation & acknowledgments.">
+      <Fragment slot="lead">
+        <div class="bibtex-block">
+          <h3>BibTeX citation</h3>
+          <pre tabindex="0"><code>{`@inproceedings{,
+  author    = {},
+  title     = {},
+  year      = {},
+}`}</code></pre>
+        </div>
+        <div class="acknowledgments">
+          <h3>Acknowledgments</h3>
+          <p>Supported by NSF CAREER Award No. 2239077.</p>
+        </div>
+      </Fragment>
+    </Chapter>
+  </article>
+</div>

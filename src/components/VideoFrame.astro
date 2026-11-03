@@ -1,0 +1,52 @@
+---
+import { withBase } from "../lib/withBase";
+
+interface Props {
+  src: string;
+  poster?: string;
+  label: string;
+  width?: number;
+  height?: number;
+  teaser?: boolean;
+  speed?: string;
+}
+
+const { src, poster, label, width = 1920, height = 1080, teaser = false, speed } = Astro.props;
+---
+
+<div class:list={["scroll-video-frame", teaser && "teaser-video"]}>
+  <video
+    autoplay
+    loop
+    muted
+    playsinline
+    controls
+    preload="metadata"
+    poster={poster ? withBase(poster) : undefined}
+    width={width}
+    height={height}
+    aria-label={label}
+  >
+    <source src={withBase(src)} type="video/mp4" />
+    Your browser does not support embedded video. <a href={withBase(src)}>Download the video.</a>
+  </video>
+  {speed && <span class="playback-mark">{speed}</span>}
+  {
+    teaser && (
+      <div class="teaser-poster-overlay teaser-placeholder" aria-hidden="true">
+        <span class="media-label">REAL-WORLD DEPLOYMENT</span>
+        <div class="placeholder-center">
+          <span class="video-status">TEASER VIDEO</span>
+          <p>
+            From room understanding
+            <br />
+            to robot action.
+          </p>
+        </div>
+        <span class="media-bottom">
+          MOCK OPERATING ROOM <span>TEASER · 1× · 2:50</span>
+        </span>
+      </div>
+    )
+  }
+</div>

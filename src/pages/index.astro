@@ -1,0 +1,87 @@
+---
+import { Font } from "astro:assets";
+
+import "../styles/global.css";
+import "../styles/actor.css";
+
+import SiteHeader from "../components/SiteHeader.astro";
+import { Content, frontmatter } from "../paper.mdx";
+
+interface Frontmatter {
+  title: string;
+  ogTitle?: string;
+  description?: string;
+  favicon: string;
+  thumbnail?: string;
+  theme?: "device" | "light" | "dark";
+}
+
+const {
+  title,
+  ogTitle,
+  description,
+  favicon,
+  thumbnail,
+  theme = "light",
+} = frontmatter as Frontmatter;
+
+const baseUrl = import.meta.env.BASE_URL;
+const prefix = baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
+const socialTitle = ogTitle ?? title;
+const faviconType = favicon.endsWith(".svg")
+  ? "image/svg+xml"
+  : favicon.endsWith(".png")
+    ? "image/png"
+    : undefined;
+---
+
+<!doctype html>
+<html lang="en" data-theme={theme}>
+  <head>
+    <meta charset="UTF-8" />
+    {description && <meta name="description" content={description} />}
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#18181b" />
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="icon" type={faviconType} href={prefix + favicon} />
+
+    <meta property="og:title" content={socialTitle} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:type" content="website" />
+    {thumbnail && <meta property="og:image" content={prefix + thumbnail} />}
+
+    <Font
+      cssVariable="--font-noto-sans"
+      preload={[{ subset: "latin", style: "normal" }]}
+    />
+
+    <title>{title}</title>
+  </head>
+  <body id="top" class="actor-site font-(family-name:--font-noto-sans)">
+    <a class="skip" href="#main">Skip to content</a>
+    <SiteHeader />
+    <main id="main">
+      <Content />
+    </main>
+    <footer class="wide">
+      <a href="#top">Back to top ↑</a>
+      <p>
+        Adapted from Roman Hauksson-Neill’s <a href="https://github.com/RomanHauksson/academic-project-astro-template">academic project page template</a>,
+        licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+        That template is based on Eliahu Horwitz’s project page template and the <a href="https://nerfies.github.io/">Nerfies</a> page.
+      </p>
+    </footer>
+    <dialog id="figure-dialog" aria-labelledby="figure-dialog-caption">
+      <div class="dialog-toolbar">
+        <a id="figure-original" href={prefix + "figures/overview.png"} target="_blank" rel="noopener">Open full resolution ↗</a>
+        <button id="close-figure" type="button" aria-label="Close enlarged figure">Close ×</button>
+      </div>
+      <div class="dialog-image-wrap"><img id="enlarged-figure" alt="" /></div>
+      <p id="figure-dialog-caption"></p>
+    </dialog>
+    <script>
+      import "../scripts/site.ts";
+    </script>
+  </body>
+</html>

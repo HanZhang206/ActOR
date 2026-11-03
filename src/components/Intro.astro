@@ -1,0 +1,94 @@
+---
+import { Icon } from "astro-icon/components";
+import { withBase } from "../lib/withBase";
+
+type Author = {
+  name: string;
+  url?: string;
+  notes?: string;
+};
+
+type Affiliation = {
+  symbol: string;
+  name: string;
+};
+
+type Note = {
+  symbol: string;
+  text: string;
+};
+
+type Link = {
+  name: string;
+  href: string;
+  icon?: string;
+};
+
+interface Props {
+  kicker: string;
+  title: string;
+  titleSecondLine?: string;
+  authors: Author[];
+  affiliations: Affiliation[];
+  notes: Note[];
+  links: Link[];
+  codeStatus?: string;
+}
+
+const { kicker, title, titleSecondLine, authors, affiliations, notes, links, codeStatus } = Astro.props;
+---
+
+<section class="intro" aria-labelledby="paper-title">
+  <h1 id="paper-title">
+    <span>{kicker}</span> {title}
+    {titleSecondLine && <br class="desktop" />}
+    {titleSecondLine}
+  </h1>
+  <ul class="authors">
+    {
+      authors.map((author) => (
+        <li>
+          {author.url ? <a href={author.url}>{author.name}</a> : author.name}
+          {author.notes && <sup>{author.notes}</sup>}
+        </li>
+      ))
+    }
+  </ul>
+  <p class="affiliations">
+    {
+      affiliations.map((affiliation) => (
+        <span>
+          <sup>{affiliation.symbol}</sup> {affiliation.name}
+        </span>
+      ))
+    }
+  </p>
+  <p class="author-notes">
+    {
+      notes.map((note, index) => (
+        <>
+          {index > 0 && <span>·</span>}
+          <sup>{note.symbol}</sup> {note.text}
+        </>
+      ))
+    }
+  </p>
+  <div class="resource-links">
+    {
+      links.map((link) => (
+        <a class="pill" href={withBase(link.href)}>
+          {link.icon && <Icon name={link.icon} aria-hidden="true" />}
+          {link.name}
+        </a>
+      ))
+    }
+    {
+      codeStatus && (
+        <span class="pill soon">
+          <Icon name="ri:code-s-slash-line" aria-hidden="true" />
+          {codeStatus}
+        </span>
+      )
+    }
+  </div>
+</section>
