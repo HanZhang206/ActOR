@@ -908,6 +908,13 @@ dialog::backdrop {
     border-radius: 12px;
   }
 
+  .playback-mark {
+    right: 10px;
+    bottom: 10px;
+    font-size: 16px;
+    letter-spacing: 0.02em;
+  }
+
   footer.wide {
     margin-top: 20px;
     padding: 25px 0 35px;
