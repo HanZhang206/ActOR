@@ -38,7 +38,7 @@ import simulationAblations from "./assets/simulation-ablations.png";
     { symbol: "†", text: "Equal contribution" },
     { symbol: "*", text: "Corresponding author" },
   ]}
-  links={[{ name: "Paper", href: "actor-paper.pdf", icon: "ri:file-pdf-2-line" }]}
+  links={[{ name: "Paper", href: "https://arxiv.org/pdf/2611.04255", icon: "ri:file-pdf-2-line" }]}
   codeStatus="Code (coming soon)"
 />
 
@@ -182,11 +182,14 @@ import simulationAblations from "./assets/simulation-ablations.png";
       <Fragment slot="lead">
         <div class="bibtex-block">
           <h3>BibTeX citation</h3>
-          <pre tabindex="0"><code>{`@unpublished{zhang2026actor,
-  title  = {ActOR: Ambient AI-Based Agentic Orchestration for Humanoid Autonomy in Operating Rooms},
-  author = {Zhang, Han and Lu, Sicheng and Santari, Aleks and Jopling, Jeffrey K. and Ishii, Masaru and Unberath, Mathias},
-  year   = {2026},
-  note   = {Manuscript}
+          <pre tabindex="0"><code>{`@misc{zhang2026actorambientaibasedagentic,
+  title         = {ActOR: Ambient AI-Based Agentic Orchestration for Humanoid Autonomy in Operating Rooms},
+  author        = {Han Zhang and Sicheng Lu and Aleks Santari and Jeffrey K. Jopling and Masaru Ishii and Mathias Unberath},
+  year          = {2026},
+  eprint        = {2611.04255},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.RO},
+  url           = {https://arxiv.org/abs/2611.04255}
 }`}</code></pre>
         </div>
         <div class="acknowledgments">

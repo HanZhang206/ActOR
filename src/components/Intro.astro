@@ -36,6 +36,10 @@ interface Props {
 }
 
 const { kicker, title, titleSecondLine, authors, affiliations, notes, links, codeStatus } = Astro.props;
+
+function isExternal(href: string) {
+  return /^https?:\/\//.test(href);
+}
 ---
 
 <section class="intro" aria-labelledby="paper-title">
@@ -76,7 +80,12 @@ const { kicker, title, titleSecondLine, authors, affiliations, notes, links, cod
   <div class="resource-links">
     {
       links.map((link) => (
-        <a class="pill" href={withBase(link.href)}>
+        <a
+          class="pill"
+          href={isExternal(link.href) ? link.href : withBase(link.href)}
+          target={isExternal(link.href) ? "_blank" : undefined}
+          rel={isExternal(link.href) ? "noopener noreferrer" : undefined}
+        >
           {link.icon && <Icon name={link.icon} aria-hidden="true" />}
           {link.name}
         </a>
